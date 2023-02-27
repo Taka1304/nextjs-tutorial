@@ -1,0 +1,17 @@
+html ,body {
+  height: 100%;
+  width: auto;
+  margin: 0;
+  color: #FFF;
+}
+
+.button {
+  background-color: #48515A;
+  font-size: large;
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: #FFF;
+}
+.button:hover {
+  background-color: #6F7680;
+}
