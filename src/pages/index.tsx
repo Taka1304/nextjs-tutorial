@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import Header from "@/components/Layout/Header";
 import Board from "@/components/Molecules/Board";
 import WORDS from "@/utils/fiveWords.json";
@@ -12,7 +12,7 @@ const AllWrapper = styled.div`
   background-color: #0D1117;
 `
 
-const MainWrapper = styled.div`
+const MainWrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,50 +29,66 @@ const MainWrapper = styled.div`
     }
   }
 `
-const REGEXP = /[^A-Z a-z]/g;
+const REGEXP = /[^A-Z]/g;
+
 
 const MyApp: FC = () => {
-  const [inputValue, setInputValue] = useState("")
-  const [answer, setAnswer] = useState<string[]>([])
+  const [inputValue, setInputValue] = useState('')
+  const [answerHistory, setAnswerHistory] = useState<string[]>([])
+  const [correctAnswer, setCorrectAnswer] = useState<string>('')
   const handleInputChange = ((e: ChangeEvent<HTMLInputElement>) => {
     // 大文字にして、半角英字以外消去
     const value = e.target.value.toUpperCase().replace(REGEXP, "")
-    
     // 入力を5文字までにする
     if (REGEXP.test(e.target.value) && inputValue.length < 5 || value.length < 5) {
-      console.log(inputValue)
       setInputValue(value)
     }
   })
-  const handleSubmit = (() => {
-    console.log("submit")
+  const handleSubmit = ((e: FormEvent) => {
+    e.preventDefault()
     if (inputValue.length === 5) {
-      setAnswer([...answer, inputValue])
-      setInputValue("")
+      setAnswerHistory([...answerHistory, inputValue])
+      setInputValue('')
     }
   })
 
+  const handleReset = (() => {
+    setAnswerHistory([])
+    setInputValue('')
+    setCorrectAnswer('')
+  })
+
   useEffect(() => {
-    
+    setCorrectAnswer(WORDS.FIVEWORDS[Math.floor(Math.random()*WORDS.FIVEWORDS.length)])
   },[])
 
   return (
     <AllWrapper>
-      <Header />
+      <Header>
+        WORDLE
+      </Header>
       <div>
-        <button className="button">Reset</button>
+        <button
+          className="button"
+          onClick={handleReset}
+          >
+          Reset
+        </button>
       </div>
       <MainWrapper>
-        <Board />
-        <div className="inputWrapper">
+        <Board answerHistory={answerHistory} correctAnswer={correctAnswer}/>
+        <form 
+          className="inputWrapper"
+          onSubmit={handleSubmit}
+          >
           <input
+            autoComplete="off"
             type="text"
             className="input"
             onChange={handleInputChange}
-            onSubmit={handleSubmit}
             value={"" || inputValue}
-            />
-        </div>
+          />
+        </form>
       </MainWrapper>
     </AllWrapper>
 )

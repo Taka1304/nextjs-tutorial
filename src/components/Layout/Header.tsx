@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import styled from 'styled-components'
 
 const StyledHeader = styled.header`
@@ -17,11 +17,14 @@ const StyledHeader = styled.header`
     padding: 0 30px;
   }
 `
+type Props = {
+  children: ReactNode
+}
 
-const Header: FC = () => {
+const Header: FC<Props> = ({ children }) => {
   return (
     <StyledHeader>
-      <span>WORDLE</span>
+      <span>{children}</span>
     </StyledHeader>
   )
 }

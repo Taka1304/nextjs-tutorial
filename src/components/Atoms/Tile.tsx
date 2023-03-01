@@ -3,9 +3,10 @@ import styled from 'styled-components'
 
 type Props = {
   children: ReactNode
+  colorFlag: string
 }
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{color: string}>`
   height: 70px;
   width: 70px;
 
@@ -25,9 +26,10 @@ const StyledWrapper = styled.div`
   font-weight: bold;
 `
 
-const WordTile: FC<Props> = ({ children }) => {
+const WordTile: FC<Props> = ({ children, colorFlag }) => {
+  
   return (
-    <StyledWrapper>
+    <StyledWrapper color={colorFlag}>
       {children}
     </StyledWrapper>
   )
