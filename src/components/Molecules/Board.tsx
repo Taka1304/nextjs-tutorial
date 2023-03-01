@@ -15,18 +15,26 @@ const Row = styled.div`
   justify-content: center;
 `
 type Props = {
-  answerHistory: string[]
-  correctAnswer: string
+  guessHistory: string[]
+  answer: string
 }
 
-const Board: FC<Props> = ({ answerHistory, correctAnswer }) => {
-  const flag: string = ""
+const checkGuess = ( char: string, index: number, answer: string ) => {
+  if (answer[index] === char) {
+    return "correct"
+  } else if (answer.includes(char)) {
+    return "wrong"
+  }
+  return "none"
+}
+
+const Board: FC<Props> = ({ guessHistory, answer }) => {
   return (
     <StyledBoard>
-      {answerHistory.map( word => (
+      {guessHistory.map( word => (
         <Row key={word}>
         {word.split("").map(( char, index ) => (
-          <Tile key={index} colorFlag={flag}>
+          <Tile key={index} colorFlag={checkGuess(char, index, answer)}>
             {char}
           </Tile>
         ))}

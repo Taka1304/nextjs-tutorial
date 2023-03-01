@@ -29,37 +29,41 @@ const MainWrapper = styled.main`
     }
   }
 `
-const REGEXP = /[^A-Z]/g;
 
+const REGEXP = /[^A-Z]/g;
 
 const MyApp: FC = () => {
   const [inputValue, setInputValue] = useState('')
-  const [answerHistory, setAnswerHistory] = useState<string[]>([])
-  const [correctAnswer, setCorrectAnswer] = useState<string>('')
+  const [guessHistory, setGuessHistory] = useState<string[]>([])
+  const [answer, setAnswer] = useState<string>('')
+
   const handleInputChange = ((e: ChangeEvent<HTMLInputElement>) => {
     // 大文字にして、半角英字以外消去
     const value = e.target.value.toUpperCase().replace(REGEXP, "")
-    // 入力を5文字までにする
+    // 正規表現に乗っ取っている かつ 入力を5文字までにする 消した時はOK
     if (REGEXP.test(e.target.value) && inputValue.length < 5 || value.length < 5) {
       setInputValue(value)
     }
   })
+
   const handleSubmit = ((e: FormEvent) => {
     e.preventDefault()
-    if (inputValue.length === 5) {
-      setAnswerHistory([...answerHistory, inputValue])
+    // 入力が5文字かつ, まだ5回答えていない場合
+    if (inputValue.length === 5 && guessHistory.length < 5) {
+      setGuessHistory([...guessHistory, inputValue])
       setInputValue('')
     }
   })
 
   const handleReset = (() => {
-    setAnswerHistory([])
+    setGuessHistory([])
     setInputValue('')
-    setCorrectAnswer('')
+    setAnswer(WORDS.FIVEWORDS[Math.floor(Math.random()*WORDS.FIVEWORDS.length)])
   })
 
   useEffect(() => {
-    setCorrectAnswer(WORDS.FIVEWORDS[Math.floor(Math.random()*WORDS.FIVEWORDS.length)])
+    // 答えを生成
+    setAnswer(WORDS.FIVEWORDS[Math.floor(Math.random()*WORDS.FIVEWORDS.length)])
   },[])
 
   return (
@@ -76,7 +80,10 @@ const MyApp: FC = () => {
         </button>
       </div>
       <MainWrapper>
-        <Board answerHistory={answerHistory} correctAnswer={correctAnswer}/>
+        <Board 
+          guessHistory={guessHistory} 
+          answer={answer}
+        />
         <form 
           className="inputWrapper"
           onSubmit={handleSubmit}
