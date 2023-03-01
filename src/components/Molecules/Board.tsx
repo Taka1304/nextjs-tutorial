@@ -23,7 +23,15 @@ const Board: FC<Props> = ({ answerHistory, correctAnswer }) => {
   const flag: string = ""
   return (
     <StyledBoard>
-
+      {answerHistory.map( word => (
+        <Row key={word}>
+        {word.split("").map(( char, index ) => (
+          <Tile key={index} colorFlag={flag}>
+            {char}
+          </Tile>
+        ))}
+        </Row>
+      ))}
     </StyledBoard>
   )
 }
