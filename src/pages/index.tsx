@@ -33,10 +33,14 @@ const MainWrapper = styled.main`
 const REGEXP = /[^A-Z]/g;
 
 const MyApp: FC = () => {
-  const [inputValue, setInputValue] = useState('')
+  // 入力フィールドの値
+  const [inputValue, setInputValue] = useState<string>('')
+  // 解答履歴
   const [guessHistory, setGuessHistory] = useState<string[]>([])
+  // 問題の答え
   const [answer, setAnswer] = useState<string>('')
 
+  // 入力フィールドが更新されるとき
   const handleInputChange = ((e: ChangeEvent<HTMLInputElement>) => {
     // 大文字にして、半角英字以外消去
     const value = e.target.value.toUpperCase().replace(REGEXP, "")
@@ -45,6 +49,7 @@ const MyApp: FC = () => {
       setInputValue(value)
     }
   })
+
 	// 入力フィールドでEnterを押したとき
   const handleSubmit = ((e: FormEvent) => {
     e.preventDefault()
@@ -55,13 +60,23 @@ const MyApp: FC = () => {
     }
   })
 
+  // Resetボタンを押した時
   const handleReset = (() => {
-		// [課題]Resetボタンを押したときに、State3つを初期化する
+		// [課題]Resetボタンを押したときに、初期化する
+    // 初期値がどうなればいいのか、考えてみよう。
+    // set~~~() ←この()の中に初期値を入れる
 
+    // setInputValue()
+    // setGuessHistory()
+    // setAnswer()
   })
 
   useEffect(() => {
     // [課題]答えをランダムで生成する
+    // set~~~() ←この()の中に生成したものを入れる
+    const words = WORDS.FIVEWORDS
+    
+    // setAnswer()
 
   },[])
 
