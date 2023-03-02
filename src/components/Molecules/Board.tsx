@@ -19,6 +19,8 @@ type Props = {
   answer: string
 }
 
+// ここより上は気にしなくてOK
+
 const checkGuess = ( char: string, index: number, answer: string ) => {
   // [課題]答えを判定する条件式を書く
 	if (0) {
@@ -32,6 +34,7 @@ const checkGuess = ( char: string, index: number, answer: string ) => {
   return "none"
 }
 
+// ここより下も気にしなくてOK
 const Board: FC<Props> = ({ guessHistory, answer }) => {
   return (
     <StyledBoard>
